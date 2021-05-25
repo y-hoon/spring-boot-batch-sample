@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class StepNextJobConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
@@ -23,42 +23,42 @@ public class StepNextJobConfiguration {
         this.stepBuilderFactory = stepBuilderFactory;
     }
 
-    @Bean
-    public Job stepNextJob() {
-        return jobBuilderFactory.get("stepNextJob")
-                .start(step1())
-                .next(step2())
-                .next(step3())
-                .build();
-    }
-
-    @Bean
-    public Step step1() {
-        return stepBuilderFactory.get("step1")
-                .tasklet((contribution, chunkContext) -> {
-                    log.info(">>>>> This is Step1");
-                    return RepeatStatus.FINISHED;
-                })
-                .build();
-    }
-
-    @Bean
-    public Step step2() {
-        return stepBuilderFactory.get("step2")
-                .tasklet((contribution, chunkContext) -> {
-                    log.info(">>>>> This is Step2");
-                    return RepeatStatus.FINISHED;
-                })
-                .build();
-    }
-
-    @Bean
-    public Step step3() {
-        return stepBuilderFactory.get("step3")
-                .tasklet((contribution, chunkContext) -> {
-                    log.info(">>>>> This is Step3");
-                    return RepeatStatus.FINISHED;
-                })
-                .build();
-    }
+//    @Bean
+//    public Job stepNextJob() {
+//        return jobBuilderFactory.get("stepNextJob")
+//                .start(step1())
+//                .next(step2())
+//                .next(step3())
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step step1() {
+//        return stepBuilderFactory.get("step1")
+//                .tasklet((contribution, chunkContext) -> {
+//                    log.info(">>>>> This is Step1");
+//                    return RepeatStatus.FINISHED;
+//                })
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step step2() {
+//        return stepBuilderFactory.get("step2")
+//                .tasklet((contribution, chunkContext) -> {
+//                    log.info(">>>>> This is Step2");
+//                    return RepeatStatus.FINISHED;
+//                })
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step step3() {
+//        return stepBuilderFactory.get("step3")
+//                .tasklet((contribution, chunkContext) -> {
+//                    log.info(">>>>> This is Step3");
+//                    return RepeatStatus.FINISHED;
+//                })
+//                .build();
+//    }
 }
