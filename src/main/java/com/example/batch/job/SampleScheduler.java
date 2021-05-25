@@ -18,11 +18,14 @@ public class SampleScheduler {
     private final JobLauncher jobLauncher;
     private final Job simpleJob;
 
+    private final Job userStatusJob;
+
     @Builder
-    public SampleScheduler(Job sampleJob, JobLauncher jobLauncher, Job simpleJob) {
+    public SampleScheduler(Job sampleJob, JobLauncher jobLauncher, Job simpleJob, Job userStatusJob) {
         this.sampleJob = sampleJob;
         this.jobLauncher = jobLauncher;
         this.simpleJob = simpleJob;
+        this.userStatusJob = userStatusJob;
     }
 
     //@Scheduled(fixedDelay = 15 * 1000L)
@@ -45,6 +48,20 @@ public class SampleScheduler {
         try {
             jobLauncher.run(
                     simpleJob,
+                    new JobParametersBuilder().addString("datetime", LocalDateTime.now().toString())
+                            .toJobParameters()
+
+            );
+        } catch(JobExecutionException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Scheduled(cron = "30 * * * * *")
+    public void executeJob3() {
+        try {
+            jobLauncher.run(
+                    userStatusJob,
                     new JobParametersBuilder().addString("datetime", LocalDateTime.now().toString())
                             .toJobParameters()
 
