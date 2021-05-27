@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
@@ -22,11 +23,14 @@ public class User {
 
     private String phone;
 
+    private LocalDateTime createDate;
+
     @Builder
-    public User(Long id, String name, String phone) {
+    public User(Long id, String name, String phone, LocalDateTime createDate ) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+        this.createDate = createDate;
     }
 
     public void setPhone() {

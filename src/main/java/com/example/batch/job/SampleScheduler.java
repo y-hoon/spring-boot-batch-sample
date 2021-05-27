@@ -48,7 +48,7 @@ public class SampleScheduler {
         try {
             jobLauncher.run(
                     simpleJob,
-                    new JobParametersBuilder().addString("datetime", LocalDateTime.now().toString())
+                    new JobParametersBuilder().addString("requestDate", LocalDateTime.now().toString())
                             .toJobParameters()
 
             );
@@ -62,7 +62,7 @@ public class SampleScheduler {
         try {
             jobLauncher.run(
                     userStatusJob,
-                    new JobParametersBuilder().addString("datetime", LocalDateTime.now().toString())
+                    new JobParametersBuilder().addString("requestDate", LocalDateTime.now().toString())
                             .toJobParameters()
 
             );

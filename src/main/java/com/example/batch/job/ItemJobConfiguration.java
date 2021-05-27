@@ -8,13 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -37,15 +41,16 @@ public class ItemJobConfiguration {
     @Bean
     public Job userStatusJob() {
         return jobBuilderFactory.get("userStatusJob")
-                .start(userStatusStep())
+                .start(userStatusStep(null))
                 .build();
     }
 
     @Bean
-    public Step userStatusStep() {
+    @JobScope
+    public Step userStatusStep(@Value("#{jobParameters[requestDate]}") String requestDate) {
         return stepBuilderFactory.get("userStatusStep")
                 .<User, User>chunk(10)
-                .reader(userStatusReader())
+                .reader(userStatusReader(requestDate))
                 .processor(userStatusProcessor())
                 .writer(userStatusWriter())
                 .build();
@@ -53,11 +58,13 @@ public class ItemJobConfiguration {
 
     @Bean
     @StepScope
-    public QueueItemReader<User> userStatusReader() {
+    public QueueItemReader<User> userStatusReader(@Value("#{jobParameters[requestDate]}") String requestDate) {
 
-        log.info("====== reader ing");
+        log.info("====== reader ing requestDate : {}", requestDate);
 
-        List<User> users = userService.findUsers();
+        LocalDateTime checkDate = LocalDateTime.parse(requestDate).minusMonths(1);
+
+        List<User> users = userService.findUsersByCreateDate(checkDate);
 
         return new QueueItemReader<>(users);
     }

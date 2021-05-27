@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -22,6 +23,12 @@ public class UserService {
     public List<User> findUsers() {
 
         List<User> userList = userRepository.findAll();
+
+        return userList;
+    }
+
+    public List<User> findUsersByCreateDate(LocalDateTime checkDate) {
+        List<User> userList = userRepository.findByCreatedDate(checkDate);
 
         return userList;
     }
