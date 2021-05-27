@@ -39,8 +39,10 @@ public class SimpleJobConfiguration {
         return stepBuilderFactory.get("simpleStep1")
                 .tasklet((contribution, chunkContext) -> {
                     //throw new IllegalArgumentException("step1에서 실패");
-                    log.info(">>>> This is Step2");
-                    log.info(">>>> requestDate = {}", requestDate);
+                    for(int i=0; i< 1000; i++) {
+                        log.info(">>>> This is Step2");
+                        log.info(">>>> requestDate = {}", requestDate);
+                    }
                     return RepeatStatus.FINISHED;
                         })
                 .build();

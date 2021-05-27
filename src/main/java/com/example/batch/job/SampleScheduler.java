@@ -57,7 +57,7 @@ public class SampleScheduler {
         }
     }
 
-    @Scheduled(cron = "30 * * * * *")
+    @Scheduled(cron = "20 * * * * *")
     public void executeJob3() {
         try {
             jobLauncher.run(
