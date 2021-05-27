@@ -1,11 +1,13 @@
 package com.example.batch;
 
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class UserService {
@@ -25,6 +27,7 @@ public class UserService {
     }
 
     public void saveAll(List<User> users) {
+        log.info("====== writer ing call save all");
         userRepository.saveAll(users);
     }
 }
